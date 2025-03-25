@@ -1,0 +1,40 @@
+name: flutapp
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you want to publish the package
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  geolocator: ^11.1.0 # Add geolocator
+  google_maps_flutter: ^2.7.0 # Add google_maps_flutter
+  flutter_mjpeg: ^2.0.4
+  cloud_firestore: ^5.6.3
+  fl_chart: ^0.70.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+assets:
+  - aquadoc_logo.png
+
+
+  # Fonts (Optional - uncomment and adjust if needed)
+  # fonts:
+  #   - family: Roboto
+  #     fonts:
+  #       - asset: fonts/Roboto-Regular.ttf
+  #       - asset: fonts/Roboto-Bold.ttf
+  #         weight: 700
+  #       - asset: fonts/Roboto-Italic.ttf
+  #         style: italic
