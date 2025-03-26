@@ -13,9 +13,14 @@ dependencies:
   cupertino_icons: ^1.0.6
   geolocator: ^11.1.0 # Add geolocator
   google_maps_flutter: ^2.7.0 # Add google_maps_flutter
+  url_launcher: ^6.1.14
   flutter_mjpeg: ^2.0.4
   cloud_firestore: ^5.6.3
   fl_chart: ^0.70.2
+  google_fonts: ^4.0.4
+  fluttertoast: ^8.2.12
+  audioplayers: ^6.4.0
+  flutter_animate: ^4.5.2
 
 dev_dependencies:
   flutter_test:

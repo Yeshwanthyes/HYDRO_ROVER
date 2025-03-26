@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart'; // Assuming Firebase for 
 // For data visualization
 
 class WaterQualityPage extends StatefulWidget {
+  const WaterQualityPage({super.key});
+
   @override
   _WaterQualityPageState createState() => _WaterQualityPageState();
 }
