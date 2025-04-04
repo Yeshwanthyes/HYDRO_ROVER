@@ -21,6 +21,7 @@ dependencies:
   fluttertoast: ^8.2.12
   audioplayers: ^6.4.0
   flutter_animate: ^4.5.2
+  # google_generative_ai:
 
 dev_dependencies:
   flutter_test:
@@ -30,8 +31,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-assets:
-  - aquadoc_logo.png
+  assets:
+    - assets/aquadoc_logo.png
 
 
   # Fonts (Optional - uncomment and adjust if needed)

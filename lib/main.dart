@@ -3,15 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'gps_track.dart';
 import 'controller_stream.dart';
 import 'ip_stream.dart';
-import 'water_quality.dart';
+import 'sensor_page.dart';
 import 'water_treatment.dart';
+
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color(0xFF0288D1), // Soft Blue Color
         scaffoldBackgroundColor: Colors.white, // Clean White Background
-        fontFamily: GoogleFonts.nunito().fontFamily, // Using Nunito for better legibility
+        fontFamily: GoogleFonts.nunito()
+            .fontFamily, // Using Nunito for better legibility
         textTheme: TextTheme(
           headlineLarge: GoogleFonts.poppins(
             fontSize: 32,
@@ -34,18 +35,22 @@ class MyApp extends StatelessWidget {
           ),
           bodyMedium: GoogleFonts.nunito(
             fontSize: 16,
-            color: const Color.fromARGB(255, 96, 26, 26), // Slightly lighter text for subtitles
+            color: const Color.fromARGB(
+                255, 96, 26, 26), // Slightly lighter text for subtitles
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.white,
-            backgroundColor: const Color(0xFF0288D1), // Matching blue for buttons
+            backgroundColor:
+                const Color(0xFF0288D1), // Matching blue for buttons
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12), // Rounded corners for modern look
+              borderRadius:
+                  BorderRadius.circular(12), // Rounded corners for modern look
             ),
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-            textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            textStyle:
+                const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
         appBarTheme: const AppBarTheme(
@@ -71,8 +76,9 @@ class MyApp extends StatelessWidget {
         '/live_streaming': (context) => const IpStreamApp(),
         '/controller': (context) => const ControllerApp(),
         '/gps_tracking': (context) => const GpsTracking_Page(),
-        '/water_treatment_methods': (context) => const WaterTreatmentMethodsPage(),
-        '/water_quality_measurement': (context) => WaterQualityPage(),
+        '/water_treatment_methods': (context) =>
+            const WaterTreatmentMethodsPage(),
+        '/water_quality_measurement': (context) => SensorPage(),
       },
     );
   }
@@ -106,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                'aquadoc_logo.png',
+                'assets/aquadoc_logo.png',
                 height: 150,
                 width: 150, // Make the logo width and height consistent
               ),
@@ -130,8 +136,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-                  textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                  textStyle: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600),
                   backgroundColor: Theme.of(context).primaryColor,
                 ),
               ),
@@ -142,8 +150,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
 
 class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
@@ -232,7 +238,6 @@ class SecondPage extends StatelessWidget {
 }
 
 // Placeholder Pages:
-
 
 class ControllerPage extends StatelessWidget {
   const ControllerPage({super.key});

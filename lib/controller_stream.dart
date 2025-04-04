@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mjpeg/flutter_mjpeg.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const MaterialApp(home: ControllerApp()));
@@ -13,10 +15,10 @@ class ControllerApp extends StatefulWidget {
 }
 
 class _ControllerAppState extends State<ControllerApp> {
-  String _streamAddress = "192.168.236.77"; // Change to your stream IP
+  String _streamAddress = "192.168.0.21"; // Change to your stream IP
   String activeButton = ""; // Stores the active button
 
-  void _sendCommand(String direction) {
+  void _sendCommand(String direction) async {
     setState(() {
       activeButton = direction;
     });
@@ -31,6 +33,39 @@ class _ControllerAppState extends State<ControllerApp> {
     });
 
     print("Moving: $direction");
+
+    // Send HTTP POST request to Flask server
+    try {
+      final uri = Uri.parse("http://$_streamAddress:5000/control");
+      final response = await http.post(
+        uri,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"command": _mapDirectionToCommand(direction)}),
+      );
+
+      if (response.statusCode != 200) {
+        print("Error: ${response.body}");
+      } else {
+        print("Command sent: ${_mapDirectionToCommand(direction)}");
+      }
+    } catch (e) {
+      print("Failed to send command: $e");
+    }
+  }
+
+  String _mapDirectionToCommand(String direction) {
+    switch (direction) {
+      case "Up":
+        return "F";
+      case "Down":
+        return "B";
+      case "Left":
+        return "L";
+      case "Right":
+        return "R";
+      default:
+        return "S";
+    }
   }
 
   void _showStreamAddressDialog() {
@@ -118,7 +153,10 @@ class _ControllerAppState extends State<ControllerApp> {
           // D-Pad Controller at the Bottom
           Expanded(
             flex: 3,
-            child: DPadController(onDirectionPressed: _sendCommand, activeButton: activeButton),
+            child: DPadController(
+              onDirectionPressed: _sendCommand,
+              activeButton: activeButton,
+            ),
           ),
         ],
       ),
@@ -131,7 +169,11 @@ class DPadController extends StatelessWidget {
   final Function(String) onDirectionPressed;
   final String activeButton;
 
-  const DPadController({super.key, required this.onDirectionPressed, required this.activeButton});
+  const DPadController({
+    super.key,
+    required this.onDirectionPressed,
+    required this.activeButton,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -141,42 +183,37 @@ class DPadController extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Circular Logo in the center
+          // Central circular logo
           Positioned(
-            top:65,
+            top: 65,
             child: Container(
               width: 60,
               height: 60,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color.fromARGB(255, 247, 240, 240), // Background color
+                color: Color.fromARGB(255, 247, 240, 240),
               ),
               child: ClipOval(
                 child: Image.asset(
-                  'aquadoc_logo.png', // Replace with your actual asset path
+                  'assets/aquadoc_logo.png', // Make sure this asset exists in your project
                   fit: BoxFit.cover,
                 ),
               ),
             ),
           ),
 
-          // Adjusted positions for main 4 arrows
-          _buildButton(Icons.arrow_upward, "Up", 0, -70, 0),   // No rotation
-          _buildButton(Icons.arrow_downward, "Down", 0, 70, 0), // No rotation
-          _buildButton(Icons.arrow_back, "Left", -70, 0, 0),   // No rotation
-          _buildButton(Icons.arrow_forward, "Right", 70, 0, 0), // No rotation
-
-          // Rotated corner arrows (90° clockwise)
-          _buildButton(Icons.arrow_forward, "Up Right", 50, -50, -45),  // Rightward
-          _buildButton(Icons.arrow_back, "Up Left", -50, -50, 45),     // Leftward
-          _buildButton(Icons.arrow_back, "Down Right", 50, 50, -135),   // Downward
-          _buildButton(Icons.arrow_forward, "Down Left", -50, 50, 135), // Downward
+          // Arrow buttons
+          _buildButton(Icons.arrow_upward, "Up", 0, -70, 0),
+          _buildButton(Icons.arrow_downward, "Down", 0, 70, 0),
+          _buildButton(Icons.arrow_back, "Left", -70, 0, 0),
+          _buildButton(Icons.arrow_forward, "Right", 70, 0, 0),
         ],
       ),
     );
   }
 
-  Widget _buildButton(IconData icon, String direction, double dx, double dy, double rotation) {
+  Widget _buildButton(
+      IconData icon, String direction, double dx, double dy, double rotation) {
     bool isActive = direction == activeButton;
 
     return Positioned(
@@ -197,7 +234,7 @@ class DPadController extends StatelessWidget {
               : [],
         ),
         child: Transform.rotate(
-          angle: rotation * 3.1416 / 180, // Convert degrees to radians
+          angle: rotation * 3.1416 / 180,
           child: ElevatedButton(
             onPressed: () => onDirectionPressed(direction),
             style: ElevatedButton.styleFrom(
@@ -211,4 +248,4 @@ class DPadController extends StatelessWidget {
       ),
     );
   }
-} 
+}
